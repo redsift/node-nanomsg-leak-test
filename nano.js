@@ -25,15 +25,15 @@ setInterval(function () {
 
 var heapdump = require('heapdump');
 var memwatch = require('memwatch-next');
-var hdLeak = new memwatch.HeapDiff();
+//var hdLeak = new memwatch.HeapDiff();
 memwatch.on('leak', function(info) {
   console.log('-------- <LEAK> -------');
   console.log(JSON.stringify(info));
   console.log('-------- </LEAK> -------');
 
-  var diff = hdLeak.end();
+  /*var diff = hdLeak.end();
   console.log('-------- <LEAK-DIFF> -------');
   console.log(JSON.stringify(diff));
   console.log('-------- </LEAK-DIFF> -------');
-  hdLeak = new memwatch.HeapDiff();
+  hdLeak = new memwatch.HeapDiff();*/
 });
