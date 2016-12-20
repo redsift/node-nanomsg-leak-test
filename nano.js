@@ -2,31 +2,41 @@
 
 var nano = require('nanomsg');
 
-var rep = nano.socket('rep');
-var req = nano.socket('req');
+function reqrep(port) {
+  var rep = nano.socket('rep');
+  var req = nano.socket('req');
 
-var addr = 'tcp://127.0.0.1:5555';
+  var addr = 'tcp://127.0.0.1:' + port;
 
-rep.bind(addr);
-req.connect(addr);
+  rep.bind(addr);
+  req.connect(addr);
 
-rep.on('data', function (buf) {
-  //console.log('received request: ', buf.toString());
-  rep.send('world');
-});
+  rep.on('data', function (buf) {
+    //console.log('received request: ', buf.toString());
+    rep.send('world');
+  });
 
-req.on('data', function (buf) {
-  //console.log('received response: ', buf.toString());
-});
+  req.on('data', function (buf) {
+    //console.log('received response: ', buf.toString());
+  });
+
+  setInterval(function () {
+    req.send('hello');
+  }, 10);
+}
+
+for (var i = 0; i < 100; i++) {
+  reqrep(5555+i);
+}
 
 setInterval(function () {
-  req.send('hello');
-}, 10);
+  global.gc();
+}, 5000);
 
-var heapdump = require('heapdump');
+//var heapdump = require('heapdump');
 var memwatch = require('memwatch-next');
 //var hdLeak = new memwatch.HeapDiff();
-memwatch.on('leak', function(info) {
+memwatch.on('leak', function (info) {
   console.log('-------- <LEAK> -------');
   console.log(JSON.stringify(info));
   console.log('-------- </LEAK> -------');
