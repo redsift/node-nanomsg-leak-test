@@ -25,13 +25,14 @@ function reqrep(port) {
   }, 10);
 }
 
-for (var i = 0; i < 100; i++) {
-  reqrep(5555+i);
-}
+//for (var i = 0; i < 1; i++) {
+  reqrep(5555);
+  //reqrep(5555+i);
+//}
 
 setInterval(function () {
   global.gc();
-}, 1000);
+}, 100);
 
 //var heapdump = require('heapdump');
 var memwatch = require('memwatch-next');
