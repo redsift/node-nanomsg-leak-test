@@ -31,7 +31,7 @@ for (var i = 0; i < 100; i++) {
 
 setInterval(function () {
   global.gc();
-}, 5000);
+}, 1000);
 
 //var heapdump = require('heapdump');
 var memwatch = require('memwatch-next');
